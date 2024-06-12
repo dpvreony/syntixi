@@ -66,23 +66,39 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
                 syntax,
                 syncfusionLicenseKey!);
 
+            if (sourceText == null)
+            {
+                return;
+            }
+
             productionContext.AddSource(
                 hintName,
                 sourceText);
         }
 
-        private static SourceText GetSourceText(ClassDeclarationSyntax classDeclarationSyntax, string syncfusionLicenseKey)
+        private static SourceText? GetSourceText(ClassDeclarationSyntax classDeclarationSyntax, string syncfusionLicenseKey)
         {
             var memberDeclarationSyntax = GetMemberDeclarationSyntax(
                 classDeclarationSyntax,
                 syncfusionLicenseKey);
 
-            var triviaList = GetTriviaList();
+            if (memberDeclarationSyntax == null)
+            {
+                return null;
+            }
+
 
             var cu = SyntaxFactory.CompilationUnit()
-                .AddMembers(memberDeclarationSyntax)
-                .WithLeadingTrivia(triviaList)
-                .NormalizeWhitespace();
+                .AddMembers(memberDeclarationSyntax);
+
+            var triviaList = GetTriviaList();
+            if (triviaList != null)
+            {
+                cu = cu
+                    .WithLeadingTrivia(triviaList);
+            }
+
+            cu = cu.NormalizeWhitespace();
 
             var syntaxTree = classDeclarationSyntax.SyntaxTree;
             var parseOptions = syntaxTree.Options;
@@ -129,33 +145,24 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
 
         private static MemberDeclarationSyntax[] GetClassMembers(string syncfusionLicenseKey)
         {
-            // private keyword
-            // const keyword
-            // variable declaration
-            // string type
-            // variable declarator
-            //  identifier
-            //  equals value clause
-            //    equals token
-            //    string literal expression
-            var modifiers = new SyntaxTokenList(
-                SyntaxFactory.Token(SyntaxKind.PrivateKeyword),
-                SyntaxFactory.Token(SyntaxKind.ConstKeyword));
 
             var attributeLists = SyntaxFactory.List<AttributeListSyntax>();
 
-            var declaration = SyntaxFactory.VariableDeclaration(
-                    SyntaxFactory.PredefinedType(
-                        SyntaxFactory.Token(SyntaxKind.StringKeyword)))
-                .WithVariables(
-                    SyntaxFactory.SingletonSeparatedList(
-                        SyntaxFactory.VariableDeclarator(
-                                SyntaxFactory.Identifier("SYNCFUSION_LICENSE_KEY"))
-                            .WithInitializer(
-                                SyntaxFactory.EqualsValueClause(
-                                    SyntaxFactory.LiteralExpression(
-                                        SyntaxKind.StringLiteralExpression,
-                                        SyntaxFactory.Literal(syncfusionLicenseKey))))));
+            var variableType = SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword));
+
+            var variableIdentifier = SyntaxFactory.Identifier("SYNCFUSION_LICENSE_KEY");
+            var initializer = SyntaxFactory.EqualsValueClause(
+                SyntaxFactory.LiteralExpression(
+                    SyntaxKind.StringLiteralExpression,
+                    SyntaxFactory.Literal(syncfusionLicenseKey)));
+            var variableDeclaration = SyntaxFactory.VariableDeclarator(variableIdentifier, null, initializer);
+            var variables = SyntaxFactory.SingletonSeparatedList(variableDeclaration);
+
+            var declaration = SyntaxFactory.VariableDeclaration(variableType, variables);
+
+            var modifiers = new SyntaxTokenList(
+                SyntaxFactory.Token(SyntaxKind.PrivateKeyword),
+                SyntaxFactory.Token(SyntaxKind.ConstKeyword));
 
             var semicolonToken = SyntaxFactory.Token(SyntaxKind.SemicolonToken);
 
@@ -179,7 +186,7 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
 
         private static SyntaxTrivia[]? GetTriviaList()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         private static ClassDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorAttributeSyntaxContext ctx)
