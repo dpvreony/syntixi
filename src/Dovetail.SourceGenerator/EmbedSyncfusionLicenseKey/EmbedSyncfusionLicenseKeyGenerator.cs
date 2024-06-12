@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
+using Dovetail.Attributes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -95,11 +96,85 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
             return sourceText;
         }
 
-        private static MemberDeclarationSyntax[] GetMemberDeclarationSyntax(
+        private static MemberDeclarationSyntax[]? GetMemberDeclarationSyntax(
             ClassDeclarationSyntax classDeclarationSyntax,
             string syncfusionLicenseKey)
         {
-            throw new System.NotImplementedException();
+            var namespaceDeclarationSyntax = GetNamespaceDeclarationSyntax(classDeclarationSyntax);
+            if (namespaceDeclarationSyntax == null)
+            {
+                return null;
+            }
+
+            var newClassDeclarationSyntax = GetClassDeclarationSyntax(
+                classDeclarationSyntax,
+                syncfusionLicenseKey);
+            if (newClassDeclarationSyntax == null)
+            {
+                return null;
+            }
+
+            return [namespaceDeclarationSyntax.AddMembers(newClassDeclarationSyntax)];
+        }
+
+        private static ClassDeclarationSyntax? GetClassDeclarationSyntax(ClassDeclarationSyntax classDeclarationSyntax, string syncfusionLicenseKey)
+        {
+            var className = classDeclarationSyntax.Identifier;
+            var classMembers = GetClassMembers(syncfusionLicenseKey);
+            var modifiers = classDeclarationSyntax.Modifiers;
+            return SyntaxFactory.ClassDeclaration(className)
+                .WithModifiers(modifiers)
+                .AddMembers(classMembers);
+        }
+
+        private static MemberDeclarationSyntax[] GetClassMembers(string syncfusionLicenseKey)
+        {
+            // private keyword
+            // const keyword
+            // variable declaration
+            // string type
+            // variable declarator
+            //  identifier
+            //  equals value clause
+            //    equals token
+            //    string literal expression
+            var modifiers = new SyntaxTokenList(
+                SyntaxFactory.Token(SyntaxKind.PrivateKeyword),
+                SyntaxFactory.Token(SyntaxKind.ConstKeyword));
+
+            var attributeLists = SyntaxFactory.List<AttributeListSyntax>();
+
+            var declaration = SyntaxFactory.VariableDeclaration(
+                    SyntaxFactory.PredefinedType(
+                        SyntaxFactory.Token(SyntaxKind.StringKeyword)))
+                .WithVariables(
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.VariableDeclarator(
+                                SyntaxFactory.Identifier("SYNCFUSION_LICENSE_KEY"))
+                            .WithInitializer(
+                                SyntaxFactory.EqualsValueClause(
+                                    SyntaxFactory.LiteralExpression(
+                                        SyntaxKind.StringLiteralExpression,
+                                        SyntaxFactory.Literal(syncfusionLicenseKey))))));
+
+            var semicolonToken = SyntaxFactory.Token(SyntaxKind.SemicolonToken);
+
+            return [SyntaxFactory.FieldDeclaration(attributeLists, modifiers, declaration, semicolonToken)];
+        }
+
+        private static NamespaceDeclarationSyntax? GetNamespaceDeclarationSyntax(ClassDeclarationSyntax classDeclarationSyntax)
+        {
+            var parent = classDeclarationSyntax.Parent;
+            while (parent != null)
+            {
+                if (parent is NamespaceDeclarationSyntax namespaceDeclarationSyntax)
+                {
+                    return namespaceDeclarationSyntax;
+                }
+                parent = parent.Parent;
+            }
+
+            return null;
         }
 
         private static SyntaxTrivia[]? GetTriviaList()
