@@ -3,8 +3,5 @@
 namespace Dovetail.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public sealed class EmbedSyncfusionLicenseKeyAttribute : Attribute
-
-    {
-    }
+    public sealed class EmbedSyncfusionLicenseKeyAttribute : Attribute;
 }

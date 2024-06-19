@@ -16,11 +16,23 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
         public void Test()
         {
             var references = new List<MetadataReference>();
+            var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
             var compilation = CSharpCompilation.Create("TestProject",
-                new[] { CSharpSyntaxTree.ParseText("[EmbedSyncfusionLicenseKeyAttribute]public partial class TestClass { }") },
+                new[]
+                {
+                    CSharpSyntaxTree.ParseText(
+                        """
+                        namespace Dovetail.Attributes
+                        {
+                            [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+                            public sealed class EmbedSyncfusionLicenseKeyAttribute : Attribute;
+                        }
+                        """),
+                    CSharpSyntaxTree.ParseText("namespace SomeNamespace{[Dovetail.Attributes.EmbedSyncfusionLicenseKeyAttribute]public partial class TestClass { }}")
+                },
                 references,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+                cSharpCompilationOptions);
 
             var generator = new EmbedSyncfusionLicenseKeyGenerator();
             var sourceGenerator = generator.AsSourceGenerator();
