@@ -15,6 +15,12 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
         [Fact]
         public void Test()
         {
+            var globalOptions = new InMemoryAnalyzerConfigOptions();
+            globalOptions.Add(
+                "build_property.SyncfusionLicense",
+                "SOMELICENSEKEY");
+
+            var inMemoryAnalyzerConfigOptionsProvider =  new InMemoryAnalyzerConfigOptionsProvider(globalOptions);
             var references = new List<MetadataReference>();
             var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
@@ -40,6 +46,7 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
             // trackIncrementalGeneratorSteps allows to report info about each step of the generator
             GeneratorDriver driver = CSharpGeneratorDriver.Create(
                 generators: new ISourceGenerator[] { sourceGenerator },
+                optionsProvider: inMemoryAnalyzerConfigOptionsProvider,
                 driverOptions: new GeneratorDriverOptions(default, trackIncrementalGeneratorSteps: true));
 
             // Run the generator
