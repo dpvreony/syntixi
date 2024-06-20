@@ -4,10 +4,14 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <!-- If you set SyncfusionLicense as an env variable it will override this. -->
+    <SyncfusionLicense Condition="'$(SyncfusionLicense)' == ''">SOMELICENSEKEY</SyncfusionLicense>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Dovetail.Attributes\Dovetail.Attributes.csproj" />
+    <ProjectReference Include="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.csproj" OutputItemType="Analyzer" />
   </ItemGroup>
 
+  <Import Project="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.props" />
 </Project>

@@ -20,7 +20,7 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
         {
             var classesToEmbedLicenseKeysIn = context.SyntaxProvider
                 .ForAttributeWithMetadataName(
-                    typeof(EmbedSyncfusionLicenseKeyAttribute).FullName!,
+                    "Dovetail.Attributes.EmbedSyncfusionLicenseKeyAttribute",
                     predicate: (node, _) => node is ClassDeclarationSyntax,
                     transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx));
 

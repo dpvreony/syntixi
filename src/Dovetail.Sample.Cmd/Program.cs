@@ -1,4 +1,6 @@
-﻿namespace Dovetail.Sample.Cmd
+﻿using System;
+
+namespace Dovetail.Sample.Cmd
 {
     internal class Program
     {
