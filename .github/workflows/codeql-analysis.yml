@@ -30,7 +30,7 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      SOLUTION_PATH: src\\Whipstaff.sln
+      SOLUTION_PATH: src\\Dovetail.sln
 
     strategy:
       fail-fast: false
@@ -58,20 +58,10 @@ jobs:
         $process.Start()
         $process.WaitForExit()
 
-    - name: Setup .NET Core 3.1
+    - name: Install .NET 8
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 3.1.x
-
-    - name: Setup .NET 5
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 5.0.x
-
-    - name: Install .NET 6
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Install DotNet workloads
       shell: bash
