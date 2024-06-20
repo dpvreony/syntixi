@@ -89,12 +89,6 @@ jobs:
         dotnet list package --vulnerable
       working-directory: src
 
-    - name: NPM package restore
-      run: |
-        pushd src\Whipstaff.Example.WebMvcApp\
-        npm install
-        popd
-
     - name: Changelog
       uses: glennawatson/ChangeLog@v1
       id: changelog
