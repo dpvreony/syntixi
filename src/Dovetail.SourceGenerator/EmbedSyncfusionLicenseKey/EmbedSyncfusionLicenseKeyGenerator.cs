@@ -176,7 +176,7 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
             {
                 if (parent is NamespaceDeclarationSyntax namespaceDeclarationSyntax)
                 {
-                    return namespaceDeclarationSyntax;
+                    return SyntaxFactory.NamespaceDeclaration(namespaceDeclarationSyntax.Name);
                 }
                 parent = parent.Parent;
             }
