@@ -19,7 +19,7 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
             var classesToEmbedLicenseKeysIn = context.SyntaxProvider
-                .ForAttributeWithMetadataName( // 👈 use the new API
+                .ForAttributeWithMetadataName(
                     typeof(EmbedSyncfusionLicenseKeyAttribute).FullName!,
                     predicate: (node, _) => node is ClassDeclarationSyntax,
                     transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx));
