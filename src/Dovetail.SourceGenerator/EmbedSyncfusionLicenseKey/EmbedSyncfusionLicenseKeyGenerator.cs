@@ -32,31 +32,32 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
 
         private static void GeneratePartialClass(
             SourceProductionContext productionContext,
-            ClassDeclarationSyntax? syntax,
+            ClassDeclarationSyntax syntax,
             AnalyzerConfigOptionsProvider analyzerConfigOptionsProvider)
         {
+            if (syntax is null)
+            {
+                productionContext.ReportDiagnostic(DiagnosticFactory.SyntaxNodeIsNull(Location.None));
+                return;
+            }
+            var location = syntax.GetLocation();
+
             var globalOptions = analyzerConfigOptionsProvider.GlobalOptions;
             if (!globalOptions.TryGetBuildPropertyValue("SyncfusionLicense", out var syncfusionLicenseKey))
             {
-                productionContext.ReportDiagnostic(DiagnosticFactory.SyncfusionLicenseArgumentNotPresent());
+                productionContext.ReportDiagnostic(DiagnosticFactory.SyncfusionLicenseArgumentNotPresent(location));
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(syncfusionLicenseKey))
             {
-                productionContext.ReportDiagnostic(DiagnosticFactory.SyncfusionLicenseArgumentEmpty());
-                return;
-            }
-
-            if (syntax is null)
-            {
-                productionContext.ReportDiagnostic(DiagnosticFactory.SyntaxNodeIsNull());
+                productionContext.ReportDiagnostic(DiagnosticFactory.SyncfusionLicenseArgumentEmpty(location));
                 return;
             }
 
             if (syntax.Modifiers.All(x => !x.IsKind(SyntaxKind.PartialKeyword)))
             {
-                productionContext.ReportDiagnostic(DiagnosticFactory.ClassNotPartial());
+                productionContext.ReportDiagnostic(DiagnosticFactory.ClassNotPartial(location));
                 return;
             }
 
@@ -188,9 +189,9 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
             return null;
         }
 
-        private static ClassDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorAttributeSyntaxContext ctx)
+        private static ClassDeclarationSyntax GetSemanticTargetForGeneration(GeneratorAttributeSyntaxContext ctx)
         {
-            return ctx.TargetNode as ClassDeclarationSyntax;
+            return (ClassDeclarationSyntax)ctx.TargetNode;
         }
 
         private static void GeneratePartialClass(
