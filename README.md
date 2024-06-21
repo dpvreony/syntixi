@@ -38,7 +38,7 @@ This will add an attributes package and the source generator package.
     /// <summary>
     /// WPF Application entry point.
     /// </summary>
-    [Dovetail.EmbedSyncfusionLicenseKey]
+    [Dovetail.Attributes.EmbedSyncfusionLicenseKey]
     public partial class App : Application
     {
       // YOUR CODE HERE
@@ -53,13 +53,13 @@ This will add an attributes package and the source generator package.
 
 ### Full example that will fail if the license key isn't present
 
-The source generator is written to set a Diagnostic Error if the attribute is included but the license key isn't present in 
+The source generator is written to set a Diagnostic Error if the attribute is included but the license key isn't present in the environment.
 
 ```cs
     /// <summary>
     /// WPF Application entry point.
     /// </summary>
-    [Dovetail.EmbedSyncfusionLicenseKey]
+    [Dovetail.Attributes.EmbedSyncfusionLicenseKey]
     public partial class App : Application
     {
         /// <summary>
@@ -71,18 +71,17 @@ The source generator is written to set a Diagnostic Error if the attribute is in
         }
     }
 ```
-```
 
 ### Full example that will not include the Syncfusion license manager if they license key isn't present.
 
-The source generator has a .props file includes the compiler directive SYNCFUSION_LICENSE_KEY.
+The source generator has a .props file includes the compiler directive `DOVETAIL_SYNCFUSION_LICENSE_KEY`.
 
 ```cs
     /// <summary>
     /// WPF Application entry point.
     /// </summary>
 #if DOVETAIL_SYNCFUSION_LICENSE_KEY
-    [Dovetail.EmbedSyncfusionLicenseKey]
+    [Dovetail.Attributes.EmbedSyncfusionLicenseKey]
 #endif
     public partial class App : Application
     {

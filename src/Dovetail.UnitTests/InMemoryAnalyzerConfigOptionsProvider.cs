@@ -9,6 +9,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Dovetail.UnitTests
 {
+    /// <summary>
+    /// In memory implementation of <see cref="AnalyzerConfigOptionsProvider"/> to support unit testing.
+    /// </summary>
     public sealed class InMemoryAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
     {
         private readonly Dictionary<string, AnalyzerConfigOptions> _options = [];

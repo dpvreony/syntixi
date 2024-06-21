@@ -4,9 +4,12 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Dovetail.UnitTests
 {
+    /// <summary>
+    /// In memory implementation of <see cref="AnalyzerConfigOptions"/> to support unit testing.
+    /// </summary>
     public sealed class InMemoryAnalyzerConfigOptions : AnalyzerConfigOptions
     {
-        private readonly Dictionary<string, string> _options = new();
+        private readonly Dictionary<string, string> _options = [];
 
         public void Add(string key, string value)
         {

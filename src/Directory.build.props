@@ -1,16 +1,16 @@
 <Project>
   <PropertyGroup>
     <Company>DPVreony and Contributors</Company>
-    <StartYear>2020</StartYear>
+    <StartYear>2024</StartYear>
     <Copyright>© $(StartYear)-$([System.DateTime]::Now.Year) $(Company)</Copyright>
-    <Product>Vetuviem ($(TargetFramework))</Product>
+    <Product>Dovetail ($(TargetFramework))</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
-    <PackageTags>Source Generation,ReactiveUI,MVVM,MV2VM</PackageTags>
-    <PackageDescription>Vetuviem is a Roslyn source generation toolkit for View to ViewModel binding in ReactiveUI to aid in re-usuable binding logic.</PackageDescription>
+    <PackageTags>Source Generation,Syncfusion</PackageTags>
+    <PackageDescription>Dovetail is a Roslyn source generation toolkit for embedding a Syncfusion license key into your build without exposing it to source control.</PackageDescription>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/dpvreony/vetuviem</RepositoryUrl>
+    <RepositoryUrl>https://github.com/dpvreony/dovetail</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>$(RepositoryUrl)/releases</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -31,7 +31,7 @@
     <WarningsAsErrors>nullable</WarningsAsErrors>
     <Nullable>enable</Nullable>
     <Packable>false</Packable>
-    <Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Vetuviem.'))">false</Packable>
+    <Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Dovetail')) and $(MSBuildProjectName.StartsWith('Dovetail.Sample')) == false">true</Packable>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsTestProject)">
@@ -80,7 +80,7 @@
   -->
 
   <ItemGroup>
-    <None Include="..\..\readme.md" Pack="true" PackagePath="\"/>
+    <None Include="readme.md" Pack="true" PackagePath="\" Condition="$(Packable)" />
     <Compile Include="..\Common.Assembly.cs" />
   </ItemGroup>
 
