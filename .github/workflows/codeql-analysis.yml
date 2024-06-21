@@ -31,6 +31,8 @@ jobs:
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
       SOLUTION_PATH: src\\Dovetail.sln
+    permissions:
+        actions: read
 
     strategy:
       fail-fast: false
