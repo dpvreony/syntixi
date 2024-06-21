@@ -64,15 +64,7 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
             var generatedOutput = Assert.Single(result.GeneratedSources);
             var generatedCodeAsString = generatedOutput.SourceText.ToString();
             Assert.Equal(
-                """
-                namespace SomeNamespace
-                {
-                    public partial class TestClass
-                    {
-                        private const string SYNCFUSION_LICENSE_KEY = "SOMELICENSEKEY";
-                    }
-                }
-                """,
+                "namespace SomeNamespace\r\n{\r\n    public partial class TestClass\r\n    {\r\n        private const string SYNCFUSION_LICENSE_KEY = \"SOMELICENSEKEY\";\r\n    }\r\n}",
                 generatedCodeAsString);
         }
     }
