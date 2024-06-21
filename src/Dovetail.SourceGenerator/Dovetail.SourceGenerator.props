@@ -1,0 +1,8 @@
+﻿<Project>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="SyncfusionLicense" />
+  </ItemGroup>
+  <PropertyGroup Condition="$(SyncfusionLicense) != ''">
+    <DefineConstants>$(DefineConstants);DOVETAIL_SYNCFUSION_LICENSE_KEY</DefineConstants>
+  </PropertyGroup>
+</Project>

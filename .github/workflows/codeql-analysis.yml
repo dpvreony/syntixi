@@ -30,7 +30,15 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      SOLUTION_PATH: src\\Whipstaff.sln
+      SOLUTION_PATH: src\\Dovetail.sln
+    permissions:
+      security-events: write
+      pull-requests: read
+      contents: write
+      id-token: write
+      statuses: write
+      actions: read
+      pages: write
 
     strategy:
       fail-fast: false
@@ -46,37 +54,10 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install Windows SDK 10.0.16299
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
-        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-        $startInfo.FileName = "winsdk.exe"
-        $startInfo.Arguments = "/norestart /quiet"
-        $process = New-Object System.Diagnostics.Process
-        $process.StartInfo = $startInfo
-        $process.Start()
-        $process.WaitForExit()
-
-    - name: Setup .NET Core 3.1
+    - name: Install .NET 8
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 3.1.x
-
-    - name: Setup .NET 5
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 5.0.x
-
-    - name: Install .NET 6
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 6.0.x
-
-    - name: Install DotNet workloads
-      shell: bash
-      run: |
-        dotnet workload install android ios tvos macos maui
+        dotnet-version: 8.0.x
 
     - name: Add MSBuild to PATH
       uses: glennawatson/setup-msbuild@v1.0.3
@@ -103,8 +84,10 @@ jobs:
 
     - name: Run Build
       run: |
-        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget /p:UseSharedCompilation=false
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:../artifacts/binlog/build.binlog /p:ContinuousIntegrationBuild=true 
       working-directory: src
+      env:
+        CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl

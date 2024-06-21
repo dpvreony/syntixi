@@ -1,10 +1,10 @@
-name: CI
+name: .NET Core
 
 on:
   push:
     branches: [ main ]
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
     branches: [ main ]
 
 jobs:
@@ -12,18 +12,19 @@ jobs:
     runs-on: windows-2022
     outputs:
       nbgv: ${{ steps.nbgv.outputs.SemVer2 }}
+      change_commit_log: ${{ steps.changelog.outputs.commitLog }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      solutionpath: src/Whipstaff.sln
-      unittestprojectpath: src/Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
-      inttestprojectpath: src/Whipstaff.IntegrationTests/Whipstaff.IntegrationTests.csproj
-      benchmarkprojectpath: src/Whipstaff.IntegrationTests/Whipstaff.Benchmarks.csproj
+      solutionpath: Dovetail.sln
+      unittestprojectpath: Dovetail.UnitTests/Dovetail.UnitTests.csproj
+      inttestprojectpath: Dovetail.IntegrationTests/Dovetail.IntegrationTests.csproj
+      benchmarkprojectpath: Dovetail.IntegrationTests/Dovetail.Benchmarks.csproj
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
       with:
         fetch-depth: 0
         
@@ -34,45 +35,25 @@ jobs:
       run: echo 'Head Ref Context is ${{ github.head_ref }}'
 
     # java is used by sonar scanner
-    - name: Setup Java 11
+    - name: Setup Java 17
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '17'
-
-    - name: Install Windows SDK 10.0.16299
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
-        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-        $startInfo.FileName = "winsdk.exe"
-        $startInfo.Arguments = "/norestart /quiet"
-        $process = New-Object System.Diagnostics.Process
-        $process.StartInfo = $startInfo
-        $process.Start()
-        $process.WaitForExit()
 
     - name: Install .NET 8
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    - name: Install DotNet workloads
-      shell: bash
-      run: |
-        dotnet workload install android ios tvos macos maui
-
-    - name: Download SBOM
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "D:\a\_temp\sbom-tool.exe"
-
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
+      uses: microsoft/setup-msbuild@70b70342ae97ca98d5eaad06cafd26d30f9592a9
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
-      run: dotnet nuget locals all --clear
+      run: |
+        dotnet nuget locals all --clear
+        dotnet nuget remove source "Microsoft Visual Studio Offline Packages"
 
     - name: NBGV
       id: nbgv
@@ -96,25 +77,37 @@ jobs:
     - name: Restore Packages
       run: |
         dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
+      working-directory: src
 
     - name: List Deprecated Packages
       run: |
-        dotnet list ${{ env.solutionpath }} package --deprecated
         dotnet list package --deprecated
       working-directory: src
-        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
 
     - name: List Vulnerable Packages
       run: |
-        dotnet list ${{ env.solutionpath }} package --vulnerable
         dotnet list package --vulnerable
       working-directory: src
 
-    - name: NPM package restore
+    - name: Changelog
+      uses: glennawatson/ChangeLog@v1
+      id: changelog
+
+    - name: Report Changelog Summary
       run: |
-        pushd src\Whipstaff.Example.WebMvcApp\
-        npm install
-        popd
+        $changecommitlog = $Env:CHANGE_COMMIT_LOG
+        $changecommitlog = $changecommitlog.Replace('"', '''')
+
+        $lines = $changecommitlog -split [Environment]::NewLine
+
+        foreach ($line in $lines)
+        {
+          echo "::notice::$line"
+          Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $line
+        }
+
+      env:
+        CHANGE_COMMIT_LOG : ${{ steps.changelog.outputs.commitLog }}
 
     - name: Run Sonar Scanner begin
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
@@ -128,12 +121,15 @@ jobs:
 
     - name: Run Build
       run: |
-        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:../artifacts/binlog/build.binlog /p:ContinuousIntegrationBuild=true
       working-directory: src
+      env:
+        CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
     - name: Run Unit Tests
+      working-directory: src
       run: |
-        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\unittestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:..\\artifacts/binlog/unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory ../artifacts/unittestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
     - name: Run Sonar Scanner end
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
@@ -159,12 +155,13 @@ jobs:
         $unitTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Unit Test Coverage: $unitTestCoverage"
         echo "::notice::$coverageMessage"
-        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+        Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
 
     # integration tests run after sonarscanner and unit test reporting so if the integration tests fail the report still uploads so we can see defects detected by sonarscanner and any unit test coverage issues.
     - name: Run Integration Tests
       run: |
-        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\inttest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\inttestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build /bl:artifacts/binlog/inttest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory ../artifacts/inttestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+      working-directory: src
 
     - name: Report Integration Test Coverage
       run: |
@@ -172,7 +169,14 @@ jobs:
         $intTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Integration Test Coverage: $intTestCoverage"
         echo "::notice::$coverageMessage"
-        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+        Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
+
+    - name: Produce Nuget Packages
+      run: |
+        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:..\\artifacts\\binlog\\pack.binlog --nologo /p:PackageOutputPath=..\..\artifacts\nuget /p:ContinuousIntegrationBuild=true
+      working-directory: src
+      env:
+        CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
     - name: List licenses
       run: |
@@ -184,7 +188,8 @@ jobs:
 
     - name: List outdated packages
       run: |
-        dotnet outdated -o artifacts\outdated\outdated.json src
+        dotnet outdated -o ..\artifacts\outdated\outdated.json
+      working-directory: src
 
     - name: VirusTotal Monitor Scan
       if: ${{ env.VIRUSTOTAL_API_KEY != 0 }}
@@ -264,9 +269,15 @@ jobs:
         name: appinspector
         path: artifacts/appinspector
   release:
+    if: ${{ always() && format('refs/heads/{0}', github.event.repository.default_branch) == github.ref }}
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
+    environment:
+      name: nuget
     needs: build
-    if: contains(github.event.pull_request.labels.*.name, 'release') && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
@@ -277,11 +288,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: nuget
-
-    - name: Changelog
-      uses: glennawatson/ChangeLog@v1
-      id: changelog
-
     - name: Create Release
       uses: actions/create-release@v1
       env:
@@ -290,7 +296,7 @@ jobs:
           tag_name: ${{ needs.build.outputs.nbgv }}
           release_name: ${{ needs.build.outputs.nbgv }}
           body: |
-            ${{ steps.changelog.outputs.commitLog }}
+            ${{ needs.build.outputs.change_commit_log }}
 
     - name: NuGet Push
       env:

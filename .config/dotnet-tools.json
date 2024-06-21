@@ -49,6 +49,12 @@
       "commands": [
         "dotnet-project-licenses"
       ]
+    },
+    "microsoft.sbom.dotnettool": {
+      "version": "2.2.6",
+      "commands": [
+        "sbom-tool"
+      ]
     }
   }
 }

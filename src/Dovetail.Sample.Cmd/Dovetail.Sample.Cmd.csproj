@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <!-- If you set SyncfusionLicense as an env variable it will override this. -->
+    <SyncfusionLicense Condition="'$(SyncfusionLicense)' == ''">SOMELICENSEKEY</SyncfusionLicense>
+    <IsPackable>False</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dovetail.Attributes\Dovetail.Attributes.csproj" PrivateAssets="all" Private="false" />
+    <ProjectReference Include="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.csproj" OutputItemType="Analyzer" PrivateAssets="all" ReferenceOutputAssembly="false" Private="false" />
+  </ItemGroup>
+
+  <Import Project="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.props" />
+</Project>
