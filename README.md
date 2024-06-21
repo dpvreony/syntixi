@@ -1,4 +1,4 @@
-# Dovetail
+# Syntixi
 
 ## Mission Statement
 
@@ -6,7 +6,7 @@
 
 ## Introduction
 
-Dovetail is a Roslyn Source Generator that picks up the license key in a way that:
+Syntixi is a Roslyn Source Generator that picks up the license key in a way that:
 * allows the key to not be stored in source control
 * allows the embedding without the direct modification of the source code, again preventing the risk of the key accidentally ending up in source control.
   * Syncfusion has a couple of batch scripts that can be embedded into your csproj but these do alter the source code and do it a slightly blind fashion.
@@ -16,11 +16,11 @@ Dovetail is a Roslyn Source Generator that picks up the license key in a way tha
 You will need a Syncfusion license key
 
 ### 1. Create an application (such as WPF)
-### 2. Add a nuget package reference to "Dovetail" in your project
+### 2. Add a nuget package reference to "Syntixi" in your project
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Dovetail" Version="1.0.0" />
+    <PackageReference Include="Syntixi" Version="1.0.0" />
 </ItemGroup>
 ```
 
@@ -38,7 +38,7 @@ This will add an attributes package and the source generator package.
     /// <summary>
     /// WPF Application entry point.
     /// </summary>
-    [Dovetail.Attributes.EmbedSyncfusionLicenseKey]
+    [Syntixi.Attributes.EmbedSyncfusionLicenseKey]
     public partial class App : Application
     {
       // YOUR CODE HERE
@@ -59,7 +59,7 @@ The source generator is written to set a Diagnostic Error if the attribute is in
     /// <summary>
     /// WPF Application entry point.
     /// </summary>
-    [Dovetail.Attributes.EmbedSyncfusionLicenseKey]
+    [Syntixi.Attributes.EmbedSyncfusionLicenseKey]
     public partial class App : Application
     {
         /// <summary>
@@ -74,14 +74,14 @@ The source generator is written to set a Diagnostic Error if the attribute is in
 
 ### Full example that will not include the Syncfusion license manager if they license key isn't present.
 
-The source generator has a .props file includes the compiler directive `DOVETAIL_SYNCFUSION_LICENSE_KEY`.
+The source generator has a .props file includes the compiler directive `SYNTIXI_SYNCFUSION_LICENSE_KEY`.
 
 ```cs
     /// <summary>
     /// WPF Application entry point.
     /// </summary>
-#if DOVETAIL_SYNCFUSION_LICENSE_KEY
-    [Dovetail.Attributes.EmbedSyncfusionLicenseKey]
+#if SYNTIXI_SYNCFUSION_LICENSE_KEY
+    [Syntixi.Attributes.EmbedSyncfusionLicenseKey]
 #endif
     public partial class App : Application
     {
@@ -90,7 +90,7 @@ The source generator has a .props file includes the compiler directive `DOVETAIL
         /// </summary>
         public App()
         {
-#if DOVETAIL_SYNCFUSION_LICENSE_KEY
+#if SYNTIXI_SYNCFUSION_LICENSE_KEY
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(SYNCFUSION_LICENSE_KEY);
 #endif
         }
@@ -99,7 +99,7 @@ The source generator has a .props file includes the compiler directive `DOVETAIL
 
 ## Viewing the documentation
 
-The documentation can be found at https://docs.dpvreony.com/projects/dovetail/
+The documentation can be found at https://docs.dpvreony.com/projects/syntixi/
 
 ## Contributing to the code
 
