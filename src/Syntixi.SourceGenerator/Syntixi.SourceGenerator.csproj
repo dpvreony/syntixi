@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="$(ProjectDir)..\Dovetail.Attributes\bin\$(Configuration)\netstandard2.0\Dovetail.Attributes.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="Dovetail.SourceGenerator.props" Pack="true" PackagePath="build" />
+    <None Include="$(ProjectDir)..\Syntixi.Attributes\bin\$(Configuration)\netstandard2.0\Syntixi.Attributes.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="Syntixi.SourceGenerator.props" Pack="true" PackagePath="build" />
   </ItemGroup>
 </Project>

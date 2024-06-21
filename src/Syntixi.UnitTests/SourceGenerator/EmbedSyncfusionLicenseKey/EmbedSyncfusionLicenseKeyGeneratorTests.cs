@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Syntixi.SourceGenerator.EmbedSyncfusionLicenseKey;
 using Xunit;
 
-namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
+namespace Syntixi.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
 {
     public sealed class EmbedSyncfusionLicenseKeyGeneratorTests
     {
@@ -25,13 +25,13 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
                 [
                     CSharpSyntaxTree.ParseText(
                         """
-                        namespace Dovetail.Attributes
+                        namespace Syntixi.Attributes
                         {
                             [AttributeUsage(AttributeTargets.Class, Inherited = false)]
                             public sealed class EmbedSyncfusionLicenseKeyAttribute : Attribute;
                         }
                         """),
-                    CSharpSyntaxTree.ParseText("namespace SomeNamespace{[Dovetail.Attributes.EmbedSyncfusionLicenseKeyAttribute]public partial class TestClass { }}")
+                    CSharpSyntaxTree.ParseText("namespace SomeNamespace{[Syntixi.Attributes.EmbedSyncfusionLicenseKeyAttribute]public partial class TestClass { }}")
                 ],
                 references,
                 cSharpCompilationOptions);

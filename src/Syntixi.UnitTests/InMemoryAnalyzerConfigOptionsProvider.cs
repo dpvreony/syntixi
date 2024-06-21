@@ -3,12 +3,11 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Dovetail.UnitTests
+namespace Syntixi.UnitTests
 {
     /// <summary>
     /// In memory implementation of <see cref="AnalyzerConfigOptionsProvider"/> to support unit testing.

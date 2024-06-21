@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Dovetail.UnitTests
+namespace Syntixi.UnitTests
 {
     /// <summary>
     /// In memory implementation of <see cref="AnalyzerConfigOptions"/> to support unit testing.

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.csproj" />
+    <ProjectReference Include="..\Syntixi.SourceGenerator\Syntixi.SourceGenerator.csproj" />
   </ItemGroup>
 
 </Project>

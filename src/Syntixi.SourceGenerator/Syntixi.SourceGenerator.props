@@ -3,6 +3,6 @@
     <CompilerVisibleProperty Include="SyncfusionLicense" />
   </ItemGroup>
   <PropertyGroup Condition="$(SyncfusionLicense) != ''">
-    <DefineConstants>$(DefineConstants);DOVETAIL_SYNCFUSION_LICENSE_KEY</DefineConstants>
+    <DefineConstants>$(DefineConstants);SYNTIXI_SYNCFUSION_LICENSE_KEY</DefineConstants>
   </PropertyGroup>
 </Project>
