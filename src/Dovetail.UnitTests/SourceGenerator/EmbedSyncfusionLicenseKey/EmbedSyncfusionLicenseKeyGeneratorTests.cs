@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
@@ -25,8 +22,7 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
             var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
             var compilation = CSharpCompilation.Create("TestProject",
-                new[]
-                {
+                [
                     CSharpSyntaxTree.ParseText(
                         """
                         namespace Dovetail.Attributes
@@ -36,7 +32,7 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
                         }
                         """),
                     CSharpSyntaxTree.ParseText("namespace SomeNamespace{[Dovetail.Attributes.EmbedSyncfusionLicenseKeyAttribute]public partial class TestClass { }}")
-                },
+                ],
                 references,
                 cSharpCompilationOptions);
 
@@ -45,7 +41,7 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
 
             // trackIncrementalGeneratorSteps allows to report info about each step of the generator
             GeneratorDriver driver = CSharpGeneratorDriver.Create(
-                generators: new ISourceGenerator[] { sourceGenerator },
+                generators: [sourceGenerator],
                 optionsProvider: inMemoryAnalyzerConfigOptionsProvider,
                 driverOptions: new GeneratorDriverOptions(default, trackIncrementalGeneratorSteps: true));
 
@@ -56,17 +52,28 @@ namespace Dovetail.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
             compilation = compilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText("// dummy"));
             driver = driver.RunGenerators(compilation);
 
-            // Assert the driver doesn't recompute the output
             var result = driver.GetRunResult().Results.Single();
             var allOutputs = result.TrackedOutputSteps.SelectMany(outputStep => outputStep.Value).SelectMany(output => output.Outputs);
-            Assert.Collection(allOutputs, output => Assert.Equal(IncrementalStepRunReason.Cached, output.Reason));
+            _ = Assert.Single(allOutputs, x => x.Reason == IncrementalStepRunReason.Cached);
 
-            // Assert the driver use the cached result from AssemblyName and Syntax
-            var assemblyNameOutputs = result.TrackedSteps["AssemblyName"].Single().Outputs;
-            Assert.Collection(assemblyNameOutputs, output => Assert.Equal(IncrementalStepRunReason.Unchanged, output.Reason));
+            var forAttributeWithMetadataNameOutputs = result.TrackedSteps["result_ForAttributeWithMetadataName"].Single().Outputs;
+            _ = Assert.Single(
+                forAttributeWithMetadataNameOutputs,
+                x => x.Reason == IncrementalStepRunReason.Unchanged);
 
-            var syntaxOutputs = result.TrackedSteps["Syntax"].Single().Outputs;
-            Assert.Collection(syntaxOutputs, output => Assert.Equal(IncrementalStepRunReason.Unchanged, output.Reason));
+            var generatedOutput = Assert.Single(result.GeneratedSources);
+            var generatedCodeAsString = generatedOutput.SourceText.ToString();
+            Assert.Equal(
+                """
+                namespace SomeNamespace
+                {
+                    public partial class TestClass
+                    {
+                        private const string SYNCFUSION_LICENSE_KEY = "SOMELICENSEKEY";
+                    }
+                }
+                """,
+                generatedCodeAsString);
         }
     }
 }
