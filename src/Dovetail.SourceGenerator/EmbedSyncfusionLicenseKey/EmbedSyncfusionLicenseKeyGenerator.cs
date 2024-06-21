@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Text;
-using Dovetail.Attributes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

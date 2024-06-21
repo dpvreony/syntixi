@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dovetail.Attributes\Dovetail.Attributes.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(ProjectDir)..\Dovetail.Attributes\bin\$(Configuration)\netstandard2.0\Dovetail.Attributes.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="Dovetail.SourceGenerator.props" Pack="true" PackagePath="build" />
