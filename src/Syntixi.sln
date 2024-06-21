@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dovetail.UnitTests", "Dovetail.UnitTests\Dovetail.UnitTests.csproj", "{94521A68-AF60-452E-A3FD-05A6AD1D6715}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syntixi.UnitTests", "Syntixi.UnitTests\Syntixi.UnitTests.csproj", "{94521A68-AF60-452E-A3FD-05A6AD1D6715}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dovetail.SourceGenerator", "Dovetail.SourceGenerator\Dovetail.SourceGenerator.csproj", "{7CCE6352-46AA-409A-BC1A-866D397ACAA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syntixi.SourceGenerator", "Syntixi.SourceGenerator\Syntixi.SourceGenerator.csproj", "{7CCE6352-46AA-409A-BC1A-866D397ACAA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dovetail.Attributes", "Dovetail.Attributes\Dovetail.Attributes.csproj", "{6811764A-6752-40E5-B03D-8F06EFE53B29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syntixi.Attributes", "Syntixi.Attributes\Syntixi.Attributes.csproj", "{6811764A-6752-40E5-B03D-8F06EFE53B29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dovetail.Sample.Cmd", "Dovetail.Sample.Cmd\Dovetail.Sample.Cmd.csproj", "{07A28F42-8F45-4342-870A-3148980BC275}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syntixi.Sample.Cmd", "Syntixi.Sample.Cmd\Syntixi.Sample.Cmd.csproj", "{07A28F42-8F45-4342-870A-3148980BC275}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dovetail", "Dovetail\Dovetail.csproj", "{F18AC5D3-98BB-44A1-BD3E-6333B4DF1A43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syntixi", "Syntixi\Syntixi.csproj", "{F18AC5D3-98BB-44A1-BD3E-6333B4DF1A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dovetail.IntegrationTests", "Dovetail.IntegrationTests\Dovetail.IntegrationTests.csproj", "{C3C4BB7A-E5FF-424A-8D4F-12EEA3B6F13C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntixi.IntegrationTests", "Syntixi.IntegrationTests\Syntixi.IntegrationTests.csproj", "{C3C4BB7A-E5FF-424A-8D4F-12EEA3B6F13C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

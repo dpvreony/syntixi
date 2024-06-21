@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 
-namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
+namespace Syntixi.SourceGenerator.EmbedSyncfusionLicenseKey
 {
     /// <summary>
     /// Source generator that embeds the Syncfusion license key in a partial class.
@@ -19,7 +19,7 @@ namespace Dovetail.SourceGenerator.EmbedSyncfusionLicenseKey
         {
             var classesToEmbedLicenseKeysIn = context.SyntaxProvider
                 .ForAttributeWithMetadataName(
-                    "Dovetail.Attributes.EmbedSyncfusionLicenseKeyAttribute",
+                    "Syntixi.Attributes.EmbedSyncfusionLicenseKeyAttribute",
                     predicate: (node, _) => node is ClassDeclarationSyntax,
                     transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx));
 

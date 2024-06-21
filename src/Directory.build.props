@@ -3,14 +3,14 @@
     <Company>DPVreony and Contributors</Company>
     <StartYear>2024</StartYear>
     <Copyright>© $(StartYear)-$([System.DateTime]::Now.Year) $(Company)</Copyright>
-    <Product>Dovetail ($(TargetFramework))</Product>
+    <Product>Syntixi ($(TargetFramework))</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
     <PackageTags>Source Generation,Syncfusion</PackageTags>
-    <PackageDescription>Dovetail is a Roslyn source generation toolkit for embedding a Syncfusion license key into your build without exposing it to source control.</PackageDescription>
+    <PackageDescription>Syntixi is a Roslyn source generation toolkit for embedding a Syncfusion license key into your build without exposing it to source control.</PackageDescription>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/dpvreony/dovetail</RepositoryUrl>
+    <RepositoryUrl>https://github.com/dpvreony/syntixi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>$(RepositoryUrl)/releases</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -31,7 +31,7 @@
     <WarningsAsErrors>nullable</WarningsAsErrors>
     <Nullable>enable</Nullable>
     <Packable>false</Packable>
-    <Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Dovetail')) and $(MSBuildProjectName.StartsWith('Dovetail.Sample')) == 'False'">true</Packable>
+    <Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Syntixi')) and $(MSBuildProjectName.StartsWith('Syntixi.Sample')) == 'False'">true</Packable>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsTestProject)">

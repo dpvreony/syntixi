@@ -5,7 +5,7 @@
 using System;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Dovetail.SourceGenerator
+namespace Syntixi.SourceGenerator
 {
     internal static class AnalyzerConfigOptionsExtensions
     {

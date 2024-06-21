@@ -10,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dovetail.Attributes\Dovetail.Attributes.csproj" PrivateAssets="all" Private="false" />
-    <ProjectReference Include="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.csproj" OutputItemType="Analyzer" PrivateAssets="all" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Syntixi.Attributes\Syntixi.Attributes.csproj" PrivateAssets="all" Private="false" />
+    <ProjectReference Include="..\Syntixi.SourceGenerator\Syntixi.SourceGenerator.csproj" OutputItemType="Analyzer" PrivateAssets="all" ReferenceOutputAssembly="false" Private="false" />
   </ItemGroup>
 
-  <Import Project="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.props" />
+  <Import Project="..\Syntixi.SourceGenerator\Syntixi.SourceGenerator.props" />
 </Project>

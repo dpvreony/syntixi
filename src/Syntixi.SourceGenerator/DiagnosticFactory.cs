@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 
-namespace Dovetail.SourceGenerator
+namespace Syntixi.SourceGenerator
 {
     public static class DiagnosticFactory
     {
@@ -71,13 +70,13 @@ namespace Dovetail.SourceGenerator
         {
             return Diagnostic.Create(
                 id,
-                "Dovetail Generation",
+                "Syntixi Generation",
                 message,
                 severity,
                 severity,
                 true,
                 warningLevel,
-                "Dovetail Generation",
+                "Syntixi Generation",
                 location: location);
         }
     }

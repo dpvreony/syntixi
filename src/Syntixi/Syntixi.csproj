@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dovetail.Attributes\Dovetail.Attributes.csproj" />
-    <ProjectReference Include="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.csproj" />
+    <ProjectReference Include="..\Syntixi.Attributes\Syntixi.Attributes.csproj" />
+    <ProjectReference Include="..\Syntixi.SourceGenerator\Syntixi.SourceGenerator.csproj" />
   </ItemGroup>
 
 </Project>

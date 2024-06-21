@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dovetail.Sample.Cmd
+namespace Syntixi.Sample.Cmd
 {
     internal class Program
     {
