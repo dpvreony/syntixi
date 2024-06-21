@@ -32,7 +32,13 @@ jobs:
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
       SOLUTION_PATH: src\\Dovetail.sln
     permissions:
-        actions: read
+      security-events: write
+      pull-requests: read
+      contents: write
+      id-token: write
+      statuses: write
+      actions: read
+      pages: write
 
     strategy:
       fail-fast: false
