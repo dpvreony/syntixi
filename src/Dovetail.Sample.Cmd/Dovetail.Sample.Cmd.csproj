@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dovetail.Attributes\Dovetail.Attributes.csproj" />
-    <ProjectReference Include="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.csproj" OutputItemType="Analyzer" />
+    <ProjectReference Include="..\Dovetail.Attributes\Dovetail.Attributes.csproj" Private="false" />
+    <ProjectReference Include="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.csproj" OutputItemType="Analyzer" Private="false" />
   </ItemGroup>
 
   <Import Project="..\Dovetail.SourceGenerator\Dovetail.SourceGenerator.props" />
