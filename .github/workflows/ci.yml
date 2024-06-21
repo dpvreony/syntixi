@@ -18,10 +18,10 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      solutionpath: Dovetail.sln
-      unittestprojectpath: Dovetail.UnitTests/Dovetail.UnitTests.csproj
-      inttestprojectpath: Dovetail.IntegrationTests/Dovetail.IntegrationTests.csproj
-      benchmarkprojectpath: Dovetail.IntegrationTests/Dovetail.Benchmarks.csproj
+      solutionpath: Syntixi.sln
+      unittestprojectpath: Syntixi.UnitTests/Syntixi.UnitTests.csproj
+      inttestprojectpath: Syntixi.IntegrationTests/Syntixi.IntegrationTests.csproj
+      benchmarkprojectpath: Syntixi.IntegrationTests/Syntixi.Benchmarks.csproj
     steps:
     - name: Checkout code
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4

@@ -30,7 +30,7 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      SOLUTION_PATH: src\\Dovetail.sln
+      SOLUTION_PATH: src\\Syntixi.sln
     permissions:
       security-events: write
       pull-requests: read
