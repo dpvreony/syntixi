@@ -31,7 +31,7 @@
     <WarningsAsErrors>nullable</WarningsAsErrors>
     <Nullable>enable</Nullable>
     <Packable>false</Packable>
-    <Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Dovetail')) and $(MSBuildProjectName.StartsWith('Dovetail.Sample')) == false">true</Packable>
+    <Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Dovetail')) and $(MSBuildProjectName.StartsWith('Dovetail.Sample')) == 'False'">true</Packable>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsTestProject)">

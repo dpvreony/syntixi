@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <!-- If you set SyncfusionLicense as an env variable it will override this. -->
     <SyncfusionLicense Condition="'$(SyncfusionLicense)' == ''">SOMELICENSEKEY</SyncfusionLicense>
+    <IsPackable>False</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
