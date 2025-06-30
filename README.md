@@ -16,15 +16,17 @@ Syntixi is a Roslyn Source Generator that picks up the license key in a way that
 You will need a Syncfusion license key
 
 ### 1. Create an application (such as WPF)
-### 2. Add a nuget package reference to "Syntixi" in your project
+### 2. Add a nuget package reference to "Syntixi.Attributes" and "Syntixi.SourceGenerator" in your project
 
 ```xml
-<ItemGroup>
-    <PackageReference Include="Syntixi" Version="1.0.0" />
-</ItemGroup>
+    <PackageReference Include="Syntixi.Attributes" Version="1.0.18" />
+    <PackageReference Include="Syntixi.SourceGenerator" Version="1.0.18">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
 ```
 
-This will add an attributes package and the source generator package.
+This will add an attributes package and the source generator package. NOTE: if you don't include the build assets for the SourceGenerator it will not make the props file available that allows Roslyn to access the SyncFusion environment variable \ secret.
 
 ### 3. Add the following initialisation for the Syncfusion license manager
 
