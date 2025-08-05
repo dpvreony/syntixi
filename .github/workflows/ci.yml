@@ -19,7 +19,7 @@ jobs:
       pages: write
       id-token: write
       pull-requests: write
-    uses: dpvreony/github-action-workflows/.github/workflows/dotnet-ci.yml@082204680ec9010ae205da5fcdcc2c076d76f775
+    uses: dpvreony/github-action-workflows/.github/workflows/dotnet-ci.yml@7e927844a12a38c13fdc6ef0e4f8f6d2569ac3b0
     with:
       solutionName: "Syntixi"
     secrets:
