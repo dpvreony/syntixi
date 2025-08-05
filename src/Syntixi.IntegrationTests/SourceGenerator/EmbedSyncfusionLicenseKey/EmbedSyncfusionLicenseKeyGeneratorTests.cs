@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Syntixi.SourceGenerator.EmbedSyncfusionLicenseKey;
 using Xunit;
 
-namespace Syntixi.UnitTests.SourceGenerator.EmbedSyncfusionLicenseKey
+namespace Syntixi.IntegrationTests.SourceGenerator.EmbedSyncfusionLicenseKey
 {
     public sealed class EmbedSyncfusionLicenseKeyGeneratorTests
     {

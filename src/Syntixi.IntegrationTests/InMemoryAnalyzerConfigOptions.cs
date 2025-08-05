@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Syntixi.UnitTests
+namespace Syntixi.IntegrationTests
 {
     /// <summary>
     /// In memory implementation of <see cref="AnalyzerConfigOptions"/> to support unit testing.
