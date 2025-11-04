@@ -23,6 +23,5 @@ jobs:
     with:
       solutionName: "Syntixi"
     secrets:
-      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      NUGET_USER: ${{ secrets.NUGET_USER }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
