@@ -61,7 +61,7 @@ namespace Syntixi.SourceGenerator.EmbedSyncfusionLicenseKey
                 return;
             }
 
-            var hintName = $"{syntax.Identifier.ValueText}.SyncfusionLicense.cs";
+            var hintName = $"{syntax.Identifier.ValueText}.SyncfusionLicense.generated.cs";
             var sourceText = GetSourceText(
                 syntax,
                 syncfusionLicenseKey!);

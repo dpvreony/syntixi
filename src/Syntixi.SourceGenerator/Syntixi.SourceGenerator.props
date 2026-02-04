@@ -2,7 +2,8 @@
   <ItemGroup>
     <CompilerVisibleProperty Include="SyncfusionLicense" />
   </ItemGroup>
-  <PropertyGroup Condition="$(SyncfusionLicense) != ''">
-    <DefineConstants>$(DefineConstants);SYNTIXI_SYNCFUSION_LICENSE_KEY</DefineConstants>
+  <PropertyGroup>
+    <SyncfusionLicense Condition="'$(SyncfusionLicense)' == ''">$([System.Environment]::GetEnvironmentVariable('SyncfusionLicense'))</SyncfusionLicense>
+    <DefineConstants Condition="$(SyncfusionLicense) != ''">$(DefineConstants);SYNTIXI_SYNCFUSION_LICENSE_KEY</DefineConstants>
   </PropertyGroup>
 </Project>
