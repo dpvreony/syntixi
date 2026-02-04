@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <!-- If you set SyncfusionLicense as an env variable it will override this. -->
-    <SyncfusionLicense Condition="'$(SyncfusionLicense)' == ''">SOMELICENSEKEY</SyncfusionLicense>
+    <SyncfusionLicense>SOMELICENSEKEY</SyncfusionLicense>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
 
