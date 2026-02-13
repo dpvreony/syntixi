@@ -87,7 +87,6 @@ namespace Syntixi.SourceGenerator.EmbedSyncfusionLicenseKey
                 return null;
             }
 
-
             var cu = SyntaxFactory.CompilationUnit()
                 .AddMembers(memberDeclarationSyntax);
 
@@ -137,10 +136,10 @@ namespace Syntixi.SourceGenerator.EmbedSyncfusionLicenseKey
         {
             var className = classDeclarationSyntax.Identifier;
             var classMembers = GetClassMembers(syncfusionLicenseKey);
-            var modifiers = classDeclarationSyntax.Modifiers;
+            var modifiers = classDeclarationSyntax.Modifiers.Select(x => x.WithoutAnnotations().WithoutTrivia()).ToArray();
             return SyntaxFactory.ClassDeclaration(className)
-                .WithModifiers(modifiers)
-                .AddMembers(classMembers);
+                .AddMembers(classMembers)
+                .AddModifiers(modifiers);
         }
 
         private static MemberDeclarationSyntax[] GetClassMembers(string syncfusionLicenseKey)
